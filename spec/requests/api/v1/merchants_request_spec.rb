@@ -119,7 +119,7 @@ describe "Merchants API:" do
       @merchant4 = create(:merchant, name: "Merchant 4")
 
       @item1 = create(:item, unit_price: 6666, merchant: @merchant1)
-      @item2 = create(:item, unit_price: 10101, merchant: @merchant2)
+      @item2 = create(:item, unit_price: 1010, merchant: @merchant2)
       @item3 = create(:item, unit_price: 3452, merchant: @merchant3)
       @item4 = create(:item, unit_price: 53023, merchant: @merchant1)
       @item5 = create(:item, unit_price: 12345, merchant: @merchant3)
@@ -139,7 +139,7 @@ describe "Merchants API:" do
 
       @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: @item1.unit_price)
       @invoice_item2 = create(:invoice_item, item: @item4, invoice: @invoice1, quantity: 1, unit_price: @item4.unit_price)
-      @invoice_item3 = create(:invoice_item, item: @item2, invoice: @invoice2, quantity: 1, unit_price: @item2.unit_price)
+      @invoice_item3 = create(:invoice_item, item: @item2, invoice: @invoice2, quantity: 7, unit_price: @item2.unit_price)
       @invoice_item4 = create(:invoice_item, item: @item3, invoice: @invoice3, quantity: 1, unit_price: @item3.unit_price)
       @invoice_item5 = create(:invoice_item, item: @item5, invoice: @invoice3, quantity: 1, unit_price: @item5.unit_price)
       @invoice_item6 = create(:invoice_item, item: @item4, invoice: @invoice4, quantity: 1, unit_price: @item4.unit_price)
@@ -153,6 +153,19 @@ describe "Merchants API:" do
 
       expect(response).to be_successful
       expect(merchants.count).to eq(2)
+      expect(merchants[0]["id"].to_i).to eq(@merchant1.id)
+      expect(merchants[1]["id"].to_i).to eq(@merchant3.id)
+    end
+
+    it "returns the top x merchants ranked by total number of items sold" do
+      get '/api/v1/merchants/most_items?quantity=2'
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(merchants.count).to eq(2)
+      expect(merchants[0]["id"].to_i).to eq(@merchant2.id)
+      expect(merchants[1]["id"].to_i).to eq(@merchant1.id)
     end
 
     context 'edge cases' do

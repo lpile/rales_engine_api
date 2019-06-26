@@ -6,10 +6,8 @@ describe "Merchants API" do
 
     get "/api/v1/merchants"
 
+    merchants = JSON.parse(response.body)["data"]
     expect(response).to be_successful
-
-    merchants = JSON.parse(response.body)
-
     expect(merchants.count).to eq(3)
   end
 
@@ -18,9 +16,9 @@ describe "Merchants API" do
 
     get "/api/v1/merchants/#{id}"
 
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body)["data"]
 
     expect(response).to be_successful
-    expect(merchant["id"]).to eq(id)
+    expect(merchant["id"].to_i).to eq(id)
   end
 end

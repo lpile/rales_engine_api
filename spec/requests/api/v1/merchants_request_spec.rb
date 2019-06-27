@@ -106,9 +106,9 @@ describe "Merchants API:" do
     end
   end
 
-  # Relationship Endpoint
+  # Relationship Endpoints
 
-  describe "Business Endpoints" do
+  describe "Business Intelligent Endpoints" do
     before :each do
       @customer1 = create(:customer, first_name: "Customer", last_name: "1")
       @customer2 = create(:customer, first_name: "Customer", last_name: "2")

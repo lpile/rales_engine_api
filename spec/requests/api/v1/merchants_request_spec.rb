@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Merchants API:" do
   describe "Record Endpoints" do
     before :each do
+      Faker::UniqueGenerator.clear
       @merchant1 = create(:merchant, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
       @merchant2 = create(:merchant, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     end
@@ -85,7 +86,7 @@ describe "Merchants API:" do
       end
 
       it "can find merchant by its created_at" do
-        get "/api/v1/merchants/find_all?#{@merchant1.created_at}"
+        get "/api/v1/merchants/find_all?created_at=#{@merchant1.created_at}"
 
         merchants = JSON.parse(response.body)["data"]
 
@@ -95,7 +96,7 @@ describe "Merchants API:" do
       end
 
       it "can find merchant by its updated_at" do
-        get "/api/v1/merchants/find_all?#{@merchant1.updated_at}"
+        get "/api/v1/merchants/find_all?updated_at=#{@merchant1.updated_at}"
 
         merchants = JSON.parse(response.body)["data"]
 
@@ -106,9 +107,9 @@ describe "Merchants API:" do
     end
   end
 
-  # Relationship Endpoint
+  # Relationship Endpoints
 
-  describe "Business Endpoints" do
+  describe "Business Intelligent Endpoints" do
     before :each do
       @customer1 = create(:customer, first_name: "Customer", last_name: "1")
       @customer2 = create(:customer, first_name: "Customer", last_name: "2")

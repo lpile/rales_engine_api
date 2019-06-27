@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Invoices API:" do
   describe "Record Endpoints" do
     before :each do
+      Faker::UniqueGenerator.clear
       @customer1 = create(:customer)
       @customer2 = create(:customer)
       @merchant1 = create(:merchant)
@@ -127,7 +128,7 @@ describe "Invoices API:" do
       end
 
       it "can find invoices by its created_at" do
-        get "/api/v1/invoices/find_all?#{@invoice1.created_at}"
+        get "/api/v1/invoices/find_all?created_at#{@invoice1.created_at}"
 
         invoices = JSON.parse(response.body)["data"]
 
@@ -137,7 +138,7 @@ describe "Invoices API:" do
       end
 
       it "can find invoices by its updated_at" do
-        get "/api/v1/invoices/find_all?#{@invoice1.updated_at}"
+        get "/api/v1/invoices/find_all?updated_at=#{@invoice1.updated_at}"
 
         invoices = JSON.parse(response.body)["data"]
 

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Items API:" do
   describe "Record Endpoints" do
     before :each do
+      Faker::UniqueGenerator.clear
       @merchant1 = create(:merchant)
       @merchant2 = create(:merchant)
       @item1 = create(:item, merchant: @merchant1, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")

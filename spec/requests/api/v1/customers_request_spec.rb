@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Customers API:" do
   describe "Record Endpoints" do
     before :each do
+      Faker::UniqueGenerator.clear
       @customer1 = create(:customer, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
       @customer2 = create(:customer, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     end
@@ -104,7 +105,7 @@ describe "Customers API:" do
       end
 
       it "can find customers by its created_at" do
-        get "/api/v1/customers/find_all?#{@customer1.created_at}"
+        get "/api/v1/customers/find_all?created_at=#{@customer1.created_at}"
 
         customers = JSON.parse(response.body)["data"]
 
@@ -114,7 +115,7 @@ describe "Customers API:" do
       end
 
       it "can find customers by its updated_at" do
-        get "/api/v1/customers/find_all?#{@customer1.updated_at}"
+        get "/api/v1/customers/find_all?updated_at=#{@customer1.updated_at}"
 
         customers = JSON.parse(response.body)["data"]
 

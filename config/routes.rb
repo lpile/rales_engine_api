@@ -29,6 +29,11 @@ Rails.application.routes.draw do
         get '/revenue', to: 'date#show'
       end
 
+      namespace :transactions do
+        get '/find', to: 'search#show'
+        get '/find_all', to: 'search#index'
+      end
+      
       resources :customers, only: [:index, :show]
       resources :invoices, only: [:index, :show]
       resources :invoice_items, only: [:index, :show]

@@ -96,15 +96,15 @@ describe "InvoiceItems API:" do
         expect(invoice_item["attributes"]["quantity"]).to eq(@invoice_item1.quantity)
       end
 
-      it "can find invoice_item by its unit_price" do
-        expected = (@invoice_item1.unit_price / 100.0).to_s
+      it "can find item by its unit_price" do
+        expected = (@item1.unit_price / 100.0).to_s
 
-        get "/api/v1/invoice_items/find?unit_price=#{@invoice_item1.unit_price}"
+        get "/api/v1/items/find?unit_price=#{expected}"
 
-        invoice_item = JSON.parse(response.body)["data"]
+        item = JSON.parse(response.body)["data"]
 
         expect(response).to be_successful
-        expect(invoice_item["attributes"]["unit_price"]).to eq(expected)
+        expect(item["attributes"]["unit_price"]).to eq(expected)
       end
 
       it "can find invoice_item by its created_at" do
@@ -167,14 +167,16 @@ describe "InvoiceItems API:" do
         expect(invoice_items.class).to eq(Array)
       end
 
-      it "can find invoice_items by its unit_price" do
-        get "/api/v1/invoice_items/find_all?unit_price=#{@invoice_item1.unit_price}"
+      it "can find items by its unit_price" do
+        expected = (@item1.unit_price / 100.0).to_s
 
-        invoice_items = JSON.parse(response.body)["data"]
+        get "/api/v1/items/find_all?unit_price=#{expected}"
+
+        items = JSON.parse(response.body)["data"]
 
         expect(response).to be_successful
-        expect(invoice_items.count).to eq(1)
-        expect(invoice_items.class).to eq(Array)
+        expect(items.count).to eq(1)
+        expect(items.class).to eq(Array)
       end
 
       it "can find invoice_items by its created_at" do

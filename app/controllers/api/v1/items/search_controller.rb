@@ -12,6 +12,14 @@ class Api::V1::Items::SearchController < ApplicationController
   private
 
   def query_params
-    params.permit(:id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at)
+    query = params.permit(:id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at)
+    unless query[:unit_price].nil?
+      query[:unit_price] = change_unit_price_to_integer(query[:unit_price])
+    end
+    query
+  end
+
+  def change_unit_price_to_integer(input_data)
+    (input_data.to_f * 100).round
   end
 end

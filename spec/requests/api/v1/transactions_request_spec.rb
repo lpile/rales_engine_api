@@ -47,7 +47,7 @@ describe "Transactions API:" do
       transaction = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(transaction.count).to eq(4)
+      expect(transaction.count).to eq(5)
     end
 
     it "can get one transaction by its id" do

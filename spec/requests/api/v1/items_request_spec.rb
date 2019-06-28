@@ -90,7 +90,7 @@ describe "Items API:" do
       it "can find item by its unit_price" do
         expected = (@item1.unit_price / 100.0).to_s
 
-        get "/api/v1/items/find?unit_price=#{@item1.unit_price}"
+        get "/api/v1/items/find?unit_price=#{expected}"
 
         item = JSON.parse(response.body)["data"]
 
@@ -158,7 +158,9 @@ describe "Items API:" do
       end
 
       it "can find items by its unit_price" do
-        get "/api/v1/items/find_all?unit_price=#{@item1.unit_price}"
+        expected = (@item1.unit_price / 100.0).to_s
+
+        get "/api/v1/items/find_all?unit_price=#{expected}"
 
         items = JSON.parse(response.body)["data"]
 

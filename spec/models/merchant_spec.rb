@@ -47,30 +47,30 @@ RSpec.describe Merchant, type: :model do
     it { should have_many :invoices }
   end
 
-  describe 'class methods' do
-    it '.top_merchants_by_revenue(quantity)' do
-      merchants = Merchant.top_merchants_by_revenue(3)
-
-      expect(merchants[0]).to eq(@merchant1)
-      expect(merchants[1]).to eq(@merchant3)
-      expect(merchants[2]).to eq(@merchant2)
-    end
-
-    it '.top_merchants_by_items(quantity)' do
-      merchants = Merchant.top_merchants_by_items(3)
-
-      expect(merchants[0]).to eq(@merchant2)
-      expect(merchants[1]).to eq(@merchant1)
-      expect(merchants[2]).to eq(@merchant3)
-    end
-
-    context 'edge cases' do
-      it "failed transactions are not included in top_merchants_by_revenue(quantity)" do
-        merchants = Merchant.top_merchants_by_revenue(4)
-
-        expect(merchants.length).to eq(3)
-        expect(merchants.include?(@merchant4)).to eq(false)
-      end
-    end
-  end
+  # describe 'class methods' do
+  #   it '.top_merchants_by_revenue(quantity)' do
+  #     merchants = Merchant.top_merchants_by_revenue(3)
+  #
+  #     expect(merchants[0]).to eq(@merchant1)
+  #     expect(merchants[1]).to eq(@merchant3)
+  #     expect(merchants[2]).to eq(@merchant2)
+  #   end
+  #
+  #   it '.top_merchants_by_items(quantity)' do
+  #     merchants = Merchant.top_merchants_by_items(3)
+  #
+  #     expect(merchants[0]).to eq(@merchant2)
+  #     expect(merchants[1]).to eq(@merchant1)
+  #     expect(merchants[2]).to eq(@merchant3)
+  #   end
+  #
+  #   context 'edge cases' do
+  #     it "failed transactions are not included in top_merchants_by_revenue(quantity)" do
+  #       merchants = Merchant.top_merchants_by_revenue(4)
+  #
+  #       expect(merchants.length).to eq(3)
+  #       expect(merchants.include?(@merchant4)).to eq(false)
+  #     end
+  #   end
+  # end
 end

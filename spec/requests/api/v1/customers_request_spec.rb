@@ -24,12 +24,14 @@ describe "Customers API:" do
     @invoice3 = create(:invoice, merchant: @merchant3, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z")
     @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: "2012-03-27T14:54:05.000Z")
     @invoice5 = create(:invoice, merchant: @merchant4, customer: @customer2)
+    @invoice6 = create(:invoice, merchant: @merchant1, customer: @customer1)
 
     @transaction1 = create(:transaction, invoice: @invoice1, result: "success")
     @transaction2 = create(:transaction, invoice: @invoice2, result: "success")
     @transaction3 = create(:transaction, invoice: @invoice3, result: "success")
     @transaction4 = create(:transaction, invoice: @invoice4, result: "success")
     @transaction5 = create(:transaction, invoice: @invoice5)
+    @transaction6 = create(:transaction, invoice: @invoice6, result: "success")
 
     @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: @item1.unit_price)
     @invoice_item2 = create(:invoice_item, item: @item4, invoice: @invoice1, quantity: 1, unit_price: @item4.unit_price)
@@ -38,6 +40,7 @@ describe "Customers API:" do
     @invoice_item5 = create(:invoice_item, item: @item5, invoice: @invoice3, quantity: 1, unit_price: @item5.unit_price)
     @invoice_item6 = create(:invoice_item, item: @item4, invoice: @invoice4, quantity: 1, unit_price: @item4.unit_price)
     @invoice_item7 = create(:invoice_item, item: @item6, invoice: @invoice5, quantity: 1, unit_price: @item6.unit_price)
+    @invoice_item7 = create(:invoice_item, item: @item4, invoice: @invoice6, quantity: 1, unit_price: @item4.unit_price)
   end
 
   describe "Record Endpoints" do
@@ -166,7 +169,7 @@ describe "Customers API:" do
       customers = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(customers.count).to eq(3)
+      expect(customers.count).to eq(4)
       expect(customers.class).to eq(Array)
       expect(customers[0]["type"]).to eq("transaction")
     end
@@ -177,11 +180,11 @@ describe "Customers API:" do
       customers = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(customers.count).to eq(3)
+      expect(customers.count).to eq(4)
       expect(customers.class).to eq(Array)
       expect(customers[0]["type"]).to eq("invoice")
     end
   end
 
-  # Business Intelligent Endpoints
+  
 end

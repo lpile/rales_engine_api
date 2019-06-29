@@ -175,17 +175,17 @@ describe "Merchants API:" do
       expect(merchants[0]["id"].to_i).to eq(@merchant1.id)
       expect(merchants[1]["id"].to_i).to eq(@merchant3.id)
     end
-  #
-  #   it "returns the top x merchants ranked by total number of items sold" do
-  #     get '/api/v1/merchants/most_items?quantity=2'
-  #
-  #     merchants = JSON.parse(response.body)["data"]
-  #
-  #     expect(response).to be_successful
-  #     expect(merchants.count).to eq(2)
-  #     expect(merchants[0]["id"].to_i).to eq(@merchant2.id)
-  #     expect(merchants[1]["id"].to_i).to eq(@merchant1.id)
-  #   end
+  
+    it "returns the top x merchants ranked by total number of items sold" do
+      get '/api/v1/merchants/most_items?quantity=2'
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(merchants.count).to eq(2)
+      expect(merchants[0]["id"].to_i).to eq(@merchant2.id)
+      expect(merchants[1]["id"].to_i).to eq(@merchant1.id)
+    end
   #
   #   xit "returns the total revenue for date x across all merchants" do
   #     get "/api/v1/merchants/revenue?date=#{@invoice1.created_at}"

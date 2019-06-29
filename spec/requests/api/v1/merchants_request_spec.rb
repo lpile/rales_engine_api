@@ -164,17 +164,17 @@ describe "Merchants API:" do
     end
   end
 
-  # describe "Business Intelligent Endpoints" do
-  #   it "returns the top x merchants ranked by total revenue" do
-  #     get '/api/v1/merchants/most_revenue?quantity=2'
-  #
-  #     merchants = JSON.parse(response.body)["data"]
-  #
-  #     expect(response).to be_successful
-  #     expect(merchants.count).to eq(2)
-  #     expect(merchants[0]["id"].to_i).to eq(@merchant1.id)
-  #     expect(merchants[1]["id"].to_i).to eq(@merchant3.id)
-  #   end
+  describe "Business Intelligent Endpoints" do
+    it "returns the top x merchants ranked by total revenue" do
+      get '/api/v1/merchants/most_revenue?quantity=2'
+
+      merchants = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(merchants.count).to eq(2)
+      expect(merchants[0]["id"].to_i).to eq(@merchant1.id)
+      expect(merchants[1]["id"].to_i).to eq(@merchant3.id)
+    end
   #
   #   it "returns the top x merchants ranked by total number of items sold" do
   #     get '/api/v1/merchants/most_items?quantity=2'
@@ -196,15 +196,15 @@ describe "Merchants API:" do
   #     expect(merchants.total_revenue).to eq(128509)
   #   end
   #
-  #   context 'edge cases' do
-  #     it "failed transactions are not included in top x merchants ranked by total revenue" do
-  #       get '/api/v1/merchants/most_revenue?quantity=4'
-  #
-  #       merchants = JSON.parse(response.body)["data"]
-  #
-  #       expect(response).to be_successful
-  #       expect(merchants.count).to eq(3)
-  #     end
-  #   end
-  # end
+    context 'edge cases' do
+      it "failed transactions are not included in top x merchants ranked by total revenue" do
+        get '/api/v1/merchants/most_revenue?quantity=4'
+
+        merchants = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(merchants.count).to eq(3)
+      end
+    end
+  end
 end

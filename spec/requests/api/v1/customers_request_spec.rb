@@ -186,5 +186,15 @@ describe "Customers API:" do
     end
   end
 
-  
+  describe "Business Intelligent Endpoints" do
+    it "returns a merchant where the customer has conducted the most successful transactions" do
+      get "/api/v1/customers/#{@customer1.id}/favorite_merchant"
+
+      merchant = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(merchant.count).to eq(1)
+      expect(merchant["id"].to_i).to eq(@merchant1.id)
+    end
+  end
 end

@@ -6,7 +6,7 @@ class Api::V1::Items::SearchController < ApplicationController
 
   # find_all
   def index
-    render json: ItemSerializer.new(Item.where(query_params))
+    render json: ItemSerializer.new(Item.find_all_by(query_params))
   end
 
   private

@@ -6,7 +6,7 @@ class Api::V1::Transactions::SearchController < ApplicationController
 
   # find_all
   def index
-    render json: TransactionSerializer.new(Transaction.where(query_params))
+    render json: TransactionSerializer.new(Transaction.find_all_by(query_params))
   end
 
   private

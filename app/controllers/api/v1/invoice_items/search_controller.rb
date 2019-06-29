@@ -6,7 +6,7 @@ class Api::V1::InvoiceItems::SearchController < ApplicationController
 
   # find_all
   def index
-    render json: InvoiceItemSerializer.new(InvoiceItem.where(query_params))
+    render json: InvoiceItemSerializer.new(InvoiceItem.find_all_by(query_params))
   end
 
   private

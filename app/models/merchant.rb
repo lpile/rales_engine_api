@@ -14,7 +14,7 @@ class Merchant < ApplicationRecord
   end
 
   def self.top_merchants_by_items(input_quantity)
-    joins(items: [invoices: [:transactions]])
+    joins(invoices: [:transactions, :invoice_items])
     .select("merchants.*, SUM(invoice_items.quantity) AS items_count")
     .merge(Transaction.successful)
     .group(:id)
@@ -24,9 +24,8 @@ class Merchant < ApplicationRecord
 
   def self.total_revenue_on_date(input_date)
     joins(invoices: [:transactions, :invoice_items])
-    .select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS merchant_revenue")
+    .select("SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
     .merge(Transaction.successful)
-    .group(:id)
-    .where(invoices: {created_at: input_date})
+    .where("CAST(invoices.created_at AS text) LIKE ?", "%#{input_date}%")
   end
 end

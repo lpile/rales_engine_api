@@ -193,7 +193,7 @@ describe "Customers API:" do
       merchant = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(merchant.count).to eq(1)
+      expect(merchant["type"]).to eq("merchant")
       expect(merchant["id"].to_i).to eq(@merchant1.id)
     end
   end

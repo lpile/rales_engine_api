@@ -175,7 +175,7 @@ describe "Merchants API:" do
       expect(merchants[0]["id"].to_i).to eq(@merchant1.id)
       expect(merchants[1]["id"].to_i).to eq(@merchant3.id)
     end
-  
+
     it "returns the top x merchants ranked by total number of items sold" do
       get '/api/v1/merchants/most_items?quantity=2'
 
@@ -186,16 +186,18 @@ describe "Merchants API:" do
       expect(merchants[0]["id"].to_i).to eq(@merchant2.id)
       expect(merchants[1]["id"].to_i).to eq(@merchant1.id)
     end
-  #
-  #   xit "returns the total revenue for date x across all merchants" do
-  #     get "/api/v1/merchants/revenue?date=#{@invoice1.created_at}"
-  #
-  #     merchants = JSON.parse(response.body)["data"]
-  #
-  #     expect(response).to be_successful
-  #     expect(merchants.total_revenue).to eq(128509)
-  #   end
-  #
+
+    it "returns the total revenue for date x across all merchants" do
+      date = "2012-03-27"
+
+      get "/api/v1/merchants/revenue?date=#{date}"
+      
+      revenue = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(revenue["attributes"]["total_revenue"]).to eq("128509.00")
+    end
+
     context 'edge cases' do
       it "failed transactions are not included in top x merchants ranked by total revenue" do
         get '/api/v1/merchants/most_revenue?quantity=4'

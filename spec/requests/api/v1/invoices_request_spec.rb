@@ -175,6 +175,18 @@ describe "Invoices API:" do
         expect(invoices.count).to eq(3)
         expect(invoices.class).to eq(Array)
       end
+
+      it "can return random invoice" do
+        invoices = Invoice.all.map { |invoice| invoice.id }
+
+        get "/api/v1/invoices/random"
+
+        invoice = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(invoice["type"]).to eq("invoice")
+        expect(invoices).to include(invoice["id"].to_i)
+      end
     end
   end
 
@@ -243,6 +255,4 @@ describe "Invoices API:" do
       expect(items[0]["type"]).to eq("item")
     end
   end
-
-  # Business Intelligent Endpoints
 end

@@ -198,6 +198,18 @@ describe "InvoiceItems API:" do
         expect(invoice_items.count).to eq(3)
         expect(invoice_items.class).to eq(Array)
       end
+
+      it "can return random invoice_item" do
+        invoice_items = InvoiceItem.all.map { |invoice_item| invoice_item.id }
+
+        get "/api/v1/invoice_items/random"
+
+        invoice_item = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(invoice_item["type"]).to eq("invoice_item")
+        expect(invoice_items).to include(invoice_item["id"].to_i)
+      end
     end
   end
 

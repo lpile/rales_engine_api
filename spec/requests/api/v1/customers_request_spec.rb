@@ -159,6 +159,18 @@ describe "Customers API:" do
         expect(customers.count).to eq(2)
         expect(customers.class).to eq(Array)
       end
+
+      it "can return random customer" do
+        customers = Customer.all.map { |customer| customer.id }
+
+        get "/api/v1/customers/random"
+
+        customer = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(customer["type"]).to eq("customer")
+        expect(customers).to include(customer["id"].to_i)
+      end
     end
   end
 

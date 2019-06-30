@@ -1,6 +1,7 @@
 class Merchant < ApplicationRecord
   has_many :invoices
   has_many :items
+  has_many :customers, through: :invoices
 
   validates_presence_of :name
 
@@ -45,5 +46,15 @@ class Merchant < ApplicationRecord
     .merge(Transaction.successful)
     .where("CAST(invoices.updated_at AS text) LIKE ?", "%#{input_date}%")
     .take
+  end
+
+  def favorite_customer
+    customers
+    .joins(invoices: :transactions)
+    .select("customers.*, COUNT(transactions.id) AS transactions_count")
+    .merge(Transaction.successful)
+    .group(:id)
+    .order('transactions_count DESC')
+    .first
   end
 end

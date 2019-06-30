@@ -24,12 +24,14 @@ describe "Merchants API:" do
     @invoice3 = create(:invoice, merchant: @merchant3, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     @invoice5 = create(:invoice, merchant: @merchant4, customer: @customer2)
+    @invoice6 = create(:invoice, merchant: @merchant1, customer: @customer2)
 
     @transaction1 = create(:transaction, invoice: @invoice1, result: "success")
     @transaction2 = create(:transaction, invoice: @invoice2, result: "success")
     @transaction3 = create(:transaction, invoice: @invoice3, result: "success")
     @transaction4 = create(:transaction, invoice: @invoice4, result: "success")
     @transaction5 = create(:transaction, invoice: @invoice5)
+    @transaction6 = create(:transaction, invoice: @invoice6, result: "success")
 
     @invoice_item1 = create(:invoice_item, item: @item1, invoice: @invoice1, quantity: 1, unit_price: @item1.unit_price)
     @invoice_item2 = create(:invoice_item, item: @item4, invoice: @invoice1, quantity: 1, unit_price: @item4.unit_price)
@@ -38,6 +40,7 @@ describe "Merchants API:" do
     @invoice_item5 = create(:invoice_item, item: @item5, invoice: @invoice3, quantity: 1, unit_price: @item5.unit_price)
     @invoice_item6 = create(:invoice_item, item: @item4, invoice: @invoice4, quantity: 1, unit_price: @item4.unit_price)
     @invoice_item7 = create(:invoice_item, item: @item6, invoice: @invoice5, quantity: 1, unit_price: @item6.unit_price)
+    @invoice_item8 = create(:invoice_item, item: @item1, invoice: @invoice6, quantity: 1, unit_price: @item1.unit_price)
   end
 
   describe "Record Endpoints" do
@@ -158,7 +161,7 @@ describe "Merchants API:" do
       items = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(items.count).to eq(2)
+      expect(items.count).to eq(3)
       expect(items.class).to eq(Array)
       expect(items[0]["type"]).to eq("invoice")
     end
@@ -204,7 +207,7 @@ describe "Merchants API:" do
       revenue = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(revenue["attributes"]["revenue"]).to eq("1127.12")
+      expect(revenue["attributes"]["revenue"]).to eq("1193.78")
     end
 
     it "returns the total revenue for that merchant for a specific invoice date x" do
@@ -214,6 +217,16 @@ describe "Merchants API:" do
 
       expect(response).to be_successful
       expect(revenue["attributes"]["revenue"]).to eq("1127.12")
+    end
+
+    it "returns the customer who has conducted the most total number of successful transactions" do
+      get "/api/v1/merchants/#{@merchant1.id}/favorite_customer"
+
+      customer = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(customer["type"]).to eq("customer")
+      expect(customer["id"].to_i).to eq(@customer2.id)
     end
 
     context 'edge cases' do

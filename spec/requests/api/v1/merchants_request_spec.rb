@@ -19,10 +19,10 @@ describe "Merchants API:" do
     @item5 = create(:item, unit_price: 12345, merchant: @merchant3)
     @item6 = create(:item, unit_price: 3456, merchant: @merchant4)
 
-    @invoice1 = create(:invoice, merchant: @merchant1, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z")
+    @invoice1 = create(:invoice, merchant: @merchant1, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     @invoice2 = create(:invoice, merchant: @merchant2, customer: @customer1)
-    @invoice3 = create(:invoice, merchant: @merchant3, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z")
-    @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: "2012-03-27T14:54:05.000Z")
+    @invoice3 = create(:invoice, merchant: @merchant3, customer: @customer1, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
+    @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     @invoice5 = create(:invoice, merchant: @merchant4, customer: @customer2)
 
     @transaction1 = create(:transaction, invoice: @invoice1, result: "success")
@@ -200,6 +200,15 @@ describe "Merchants API:" do
 
     it "returns the total revenue for that merchant across successful transactions" do
       get "/api/v1/merchants/#{@merchant1.id}/revenue"
+
+      revenue = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(revenue["attributes"]["revenue"]).to eq("1127.12")
+    end
+
+    it "returns the total revenue for that merchant for a specific invoice date x" do
+      get "/api/v1/merchants/#{@merchant1.id}/revenue?date=2012-03-27"
 
       revenue = JSON.parse(response.body)["data"]
 

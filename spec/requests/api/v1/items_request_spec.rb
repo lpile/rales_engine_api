@@ -19,10 +19,10 @@ describe "Items API:" do
     @item5 = create(:item, unit_price: 12345, merchant: @merchant3)
     @item6 = create(:item, unit_price: 3456, merchant: @merchant4)
 
-    @invoice1 = create(:invoice, merchant: @merchant1, customer: @customer1)
+    @invoice1 = create(:invoice, merchant: @merchant1, customer: @customer1, created_at: "2018-03-27T14:54:05.000Z", updated_at: "2018-03-27T14:54:05.000Z")
     @invoice2 = create(:invoice, merchant: @merchant2, customer: @customer1)
     @invoice3 = create(:invoice, merchant: @merchant3, customer: @customer1)
-    @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2)
+    @invoice4 = create(:invoice, merchant: @merchant1, customer: @customer2, created_at: "2012-03-27T14:54:05.000Z", updated_at: "2012-03-27T14:54:05.000Z")
     @invoice5 = create(:invoice, merchant: @merchant4, customer: @customer2)
 
     @transaction1 = create(:transaction, invoice: @invoice1, result: "success")
@@ -245,6 +245,15 @@ describe "Items API:" do
       expect(items.count).to eq(2)
       expect(items[0]["id"].to_i).to eq(@item2.id)
       expect(items[1]["id"].to_i).to eq(@item4.id)
+    end
+
+    it "returns the date with the most sales for the given item" do
+      get "/api/v1/items/#{@item4.id}/best_day"
+
+      item = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(item["attributes"]["best_day"]).to eq("2018-03-27")
     end
   end
 end

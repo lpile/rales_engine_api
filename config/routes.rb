@@ -29,8 +29,11 @@ Rails.application.routes.draw do
       namespace :items do
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
+        get '/:id/best_day', to: 'best_day#show'
         get '/:id/invoice_items', to: 'invoice_items#index'
         get '/:id/merchant', to: 'merchants#show'
+        get '/most_items', to: 'most_items#index'
+        get '/most_revenue', to: 'most_revenue#index'
       end
 
       namespace :merchants do
@@ -38,9 +41,9 @@ Rails.application.routes.draw do
         get '/find_all', to: 'search#index'
         get '/:id/invoices', to: 'invoices#index'
         get '/:id/items', to: 'items#index'
-        get '/most_revenue', to: 'most_revenue#index'
         get '/most_items', to: 'most_items#index'
-        get '/revenue', to: 'date#show'
+        get '/most_revenue', to: 'most_revenue#index'
+        get '/revenue', to: 'revenue#show'
       end
 
       namespace :transactions do

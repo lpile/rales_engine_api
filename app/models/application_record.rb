@@ -5,4 +5,8 @@ class ApplicationRecord < ActiveRecord::Base
     where(query_params)
     .order(:id)
   end
+
+  def self.random
+    order(Arel.sql('random()')).first
+  end
 end

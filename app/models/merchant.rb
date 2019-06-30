@@ -27,5 +27,6 @@ class Merchant < ApplicationRecord
     .select("SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
     .merge(Transaction.successful)
     .where("CAST(invoices.created_at AS text) LIKE ?", "%#{input_date}%")
+    .take
   end
 end

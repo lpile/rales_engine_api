@@ -29,4 +29,13 @@ class Merchant < ApplicationRecord
     .where("CAST(invoices.created_at AS text) LIKE ?", "%#{input_date}%")
     .take
   end
+
+  def total_revenue_on_id
+    invoices
+    .joins(:transactions, :invoice_items)
+    .select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    .merge(Transaction.successful)
+    .where(invoices: {merchant_id: self.id})
+    .take
+  end
 end

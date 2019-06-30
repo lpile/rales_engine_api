@@ -235,5 +235,16 @@ describe "Items API:" do
       expect(items[0]["id"].to_i).to eq(@item4.id)
       expect(items[1]["id"].to_i).to eq(@item5.id)
     end
+
+    it "returns the top x items ranked by total number sold" do
+      get '/api/v1/items/most_items?quantity=2'
+
+      items = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(items.count).to eq(2)
+      expect(items[0]["id"].to_i).to eq(@item2.id)
+      expect(items[1]["id"].to_i).to eq(@item4.id)
+    end
   end
 end

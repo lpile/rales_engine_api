@@ -175,6 +175,18 @@ describe "Transactions API:" do
         expect(transactions.count).to eq(3)
         expect(transactions.class).to eq(Array)
       end
+      
+      it "can return random transaction" do
+        transactions = Transaction.all.map { |transaction| transaction.id }
+
+        get "/api/v1/transactions/random"
+
+        transaction = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(transaction["type"]).to eq("transaction")
+        expect(transactions).to include(transaction["id"].to_i)
+      end
     end
   end
 

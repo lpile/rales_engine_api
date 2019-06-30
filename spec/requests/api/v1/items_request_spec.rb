@@ -198,6 +198,18 @@ describe "Items API:" do
         expect(items.count).to eq(3)
         expect(items.class).to eq(Array)
       end
+
+      it "can return random item" do
+        items = Item.all.map { |item| item.id }
+
+        get "/api/v1/items/random"
+
+        item = JSON.parse(response.body)["data"]
+
+        expect(response).to be_successful
+        expect(item["type"]).to eq("item")
+        expect(items).to include(item["id"].to_i)
+      end
     end
   end
 

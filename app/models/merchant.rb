@@ -30,12 +30,20 @@ class Merchant < ApplicationRecord
     .take
   end
 
-  def total_revenue_on_id
+  def revenue_on_id
     invoices
     .joins(:transactions, :invoice_items)
     .select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .merge(Transaction.successful)
-    .where(invoices: {merchant_id: self.id})
+    .take
+  end
+
+  def revenue_by_date(input_date)
+    invoices
+    .joins(:transactions, :invoice_items)
+    .select("SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    .merge(Transaction.successful)
+    .where("CAST(invoices.updated_at AS text) LIKE ?", "%#{input_date}%")
     .take
   end
 end

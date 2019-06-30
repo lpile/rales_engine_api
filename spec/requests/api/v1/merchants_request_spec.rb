@@ -198,6 +198,15 @@ describe "Merchants API:" do
       expect(revenue["attributes"]["total_revenue"]).to eq("1285.09")
     end
 
+    it "returns the total revenue for that merchant across successful transactions" do
+      get "/api/v1/merchants/#{@merchant1.id}/revenue"
+
+      revenue = JSON.parse(response.body)["data"]
+
+      expect(response).to be_successful
+      expect(revenue["attributes"]["revenue"]).to eq("1127.12")
+    end
+
     context 'edge cases' do
       it "failed transactions are not included in top x merchants ranked by total revenue" do
         get '/api/v1/merchants/most_revenue?quantity=4'

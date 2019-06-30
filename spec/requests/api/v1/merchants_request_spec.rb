@@ -188,14 +188,14 @@ describe "Merchants API:" do
     end
 
     it "returns the total revenue for date x across all merchants" do
-      date = "2012-03-27"
+      Item.all.map {|item| (item.unit_price / 100.0).to_s}
 
-      get "/api/v1/merchants/revenue?date=#{date}"
-      
+      get "/api/v1/merchants/revenue?date=2012-03-27"
+
       revenue = JSON.parse(response.body)["data"]
 
       expect(response).to be_successful
-      expect(revenue["attributes"]["total_revenue"]).to eq("128509.00")
+      expect(revenue["attributes"]["total_revenue"]).to eq("1285.09")
     end
 
     context 'edge cases' do

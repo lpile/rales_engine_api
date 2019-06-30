@@ -3,6 +3,6 @@ FactoryBot.define do
     item
     invoice
     quantity { rand(1..10) }
-    unit_price { rand(100..100000) }
+    unit_price { item.unit_price }
   end
 end

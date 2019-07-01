@@ -25,6 +25,10 @@ bundle exec rake db:{drop,create,migrate}
 rake import:data
 ```
 
+## Blog Link
+
+My [blog](https://medium.com/@logan.pile/rales-engine-my-first-introduction-to-api-6ae61c33b1a) about this project.
+
 ## Learning Goals
 * Learn how to to build Single-Responsibility controllers to provide a well-designed and versioned API.
 * Learn how to use controller tests to drive your design.
